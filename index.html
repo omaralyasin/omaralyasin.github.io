@@ -177,6 +177,14 @@ th, td {
 <script>
     document.getElementById("today").innerHTML = new Date().toLocaleDateString();
 </script>
+	<script>
+  
+  document.querySelector("form").addEventListener("submit", function(event) {
+    event.preventDefault(); 
+    document.body.innerHTML = "<h1>Thank you for submitting your form!</h1><h2>We have received your information, " 
+      + document.getElementById("fname").value + ".</h2>";
+  });
+</script>
 </br>
 
 </body>
