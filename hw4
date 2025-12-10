@@ -1,102 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--
+    Name: Omar Alyasin
+    File: homework4.html
+    Date created: 12/6/2025
+    Date last edited: 12/10/2025
+    Version: 2 
+    Description: Homework4 Creating Patient Intake Form + Required Web Features
+-->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Assignment Demo</title>
-    <style>
-        /* ----- Sticky Content (Content Protection) ----- */
-        #stickyHeader {
-            position: sticky;
-            top: 0;
-            background: #222;
-            color: white;
-            padding: 10px;
-            font-size: 20px;
-            z-index: 1000;
-        }
+<h1 style="font-size:60px;"></h1>
+<h2><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png/250px-Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png" width="600" height="350"></h2>
 
-        body {
-            font-family: Arial, sans-serif;
-        }
+<style>
+body {
+	background-color: #D1A879;
+}
 
-        #dataBox {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid black;
-            background-color: #f0f0f0;
-        }
+table, th, td {
+  border: 3px solid black;
+  border-collapse: collapse;
+}
 
-        iframe {
-            width: 100%;
-            height: 200px;
-            border: 2px solid black;
-            margin-top: 20px;
-        }
-    </style>
+th, td {
+  padding: 20px;
+}
+
+/* Sticky protected content */
+.sticky-box {
+    position: sticky;
+    top: 0;
+    background: gold;
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    z-index: 100;
+    text-align:center;
+}
+</style>
 </head>
 
 <body>
 
-    <!-- CONTENT PROTECTION (Sticky Header) -->
-    <div id="stickyHeader">This Header Never Scrolls Away</div>
+<!-- CONTENT PROTECTION / STICKY ELEMENT -->
+<div class="sticky-box">
+    ⚠️ Important: Patient Intake Form — Do Not Scroll Away
+</div>
 
-    <h2>Fetch API Example</h2>
-    <button onclick="getData()">Fetch Random User</button>
-    <div id="dataBox">User data will appear here.</div>
+<form action="results.html" method="GET">
+<h1>Plague's Patient Form</h1>
+<h2><script>document.write(new Date().toLocaleDateString());</script></h2>
 
-    <h2>iFrame Example</h2>
-    <iframe src="https://example.com"></iframe>
+<table style="width:100%">
+  <tr>
+    <td><label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" placeholder="Omar" maxlength="30" pattern="[A-Z^a-z34-' ]{2,}"
+                    required></td>
+    <td><label for="minit">Middle Initial:</label>
+            <input type="text" id="minit" name="minit" maxlength="1"></td> 
+    <td><label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" placeholder="Alyasin" maxlength="30" pattern="[A-Z^a-z34-' ]{2,}"
+                    required></td>
+  </tr>
 
-    <h2>Cookie & Local Storage Example</h2>
-    <button onclick="saveCookie()">Save Cookie</button>
-    <button onclick="saveLocal()">Save LocalStorage</button>
-    <button onclick="showStored()">Show Stored Values</button>
+  <tr>
+    <td><label for="user">Username:</label>
+            <input type="text" id="user" name="user" placeholder="Epicdragon91" maxlength="20" minlength="5" required></td>
 
-    <div id="storedOutput"></div>
+    <td><label for="pass">Password:</label>
+            <input type="password" id="pass1" name="pass" maxlength="12" required>
+            <label for="pass">Re-enter:</label>
+            <input type="password" id="pass2" maxlength="12" required></td>
 
-    <script>
-        /* ----- 1. Fetch API Example ----- */
-        function getData() {
-            fetch("https://randomuser.me/api/")
-                .then(response => response.json())
-                .then(data => {
-                    const user = data.results[0];
-                    document.getElementById("dataBox").innerHTML =
-                        `Name: ${user.name.first} ${user.name.last}<br>
-                        Email: ${user.email}<br>
-                        Country: ${user.location.country}`;
-                })
-                .catch(err => {
-                    document.getElementById("dataBox").innerHTML = "Error fetching data";
-                });
-        }
+    <td><label for="social">Social Security Number:</label>
+            <input type="password" id="social" name="social" maxlength="9" required></td>
+  </tr>
 
-        /* ----- 2. Cookies ----- */
-        function saveCookie() {
-            document.cookie = "studentName=Omar; max-age=86400;"; // lasts 1 day
-            alert("Cookie saved!");
-        }
+  <tr>
+    <td><label for="email">Email:</label>
+            <input type="email" id="email" name="email"></td>
 
-        /* ----- 3. Local Storage ----- */
-        function saveLocal() {
-            localStorage.setItem("class", "MANA4397");
-            localStorage.setItem("status", "Active user");
-            alert("Local storage saved!");
-        }
+    <td><label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="(832)-970-0321"></td>
 
-        function showStored() {
-            const cookie = document.cookie;
-            const localClass = localStorage.getItem("class");
-            const status = localStorage.getItem("status");
+    <td><label for="bdate">Birthdate:</label>
+            <input type="date" id="bdate" name="bdate"></td>
+  </tr>
 
-            document.getElementById("storedOutput").innerHTML = `
-                <b>Cookies:</b> ${cookie}<br>
-                <b>LocalStorage:</b><br>
-                Class: ${localClass}<br>
-                Status: ${status}
-            `;
-        }
-    </script>
+  <tr>
+    <td>
+        <label>Legal Gender:</label>
+        <label for="male">Male</label><input type="radio" id="male" name="gender" value="male">
+        <label for="female">Female</label><input type="radio" id="female" name="gender" value="female">
+    </td>
+
+    <td>
+        <label>Marital Status:</label>
+        <label for="single">Single</label><input type="radio" id="single" name="mstatus" value="single">
+        <label for="married">Married</label><input type="radio" id="married" name="mstatus" value="married">
+    </td>
+
+    <td>
+        <label>Insurance:</label>
+        <label>YES</label><input type="radio" name="insure" value="YES">
+        <label>NO</label><input type="radio" name="insure" value="NO">
+    </td>
+  </tr>
+</table>
+
+<p>
+<label for="payment">Payment:</label>
+<select id="payment" name="payment">
+    <option value="visa">Visa</option>
+    <option value="mastercard">MasterCard</option>
+    <option value="insurance">Insurance</option>
+</select>
+</p>
+
+<label for="state">State:</label>
+<select id="state" name="state" required>
+    <option value=""></option>
+    <option value="TX">Texas</option>
+    <option value="CA">California</option>
+    <option value="FL">Florida</option>
+</select>
+
+<br><br>
+
+<label>Was this useful?</label>
+1 <input type="range" step="25" value="100"> 5
+
+<br><br>
+
+<textarea rows="5" cols="17" name="comment" maxlength="110" placeholder="Comments/Questions..."></textarea>
+
+<p><label for="address">Address:</label>
+<input type="text" id="address" name="address" maxlength="30" required></p>
+
+<p><label for="zip">Zip Code:</label>
+<input type="text" id="zip" name="zip" maxlength="5" required></p>
+
+<p><label for="city">City:</label>
+<input type="text" id="city" name="city" required></p>
+
+<input type="reset"> 
+<input type="submit">
+
+<br><br>
+
+Today's date: <span id="today"></span>
+
+</form>
+
+<script>
+document.getElementById("today").innerHTML = new Date().toLocaleDateString();
+
+/* Override submit to show thank-you message */
+document.querySelector("form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    document.body.innerHTML = "<h1>Thank you for submitting your form!</h1><h2>We have received your information, " 
+    + document.getElementById("fname").value + ".</h2>";
+});
+</script>
+
+<!-- =============================== -->
+<!--     REQUIRED FEATURES ADDED     -->
+<!-- =============================== -->
+
+<hr><h1>Required Web Features</h1>
+
+<!-- 1. Fetch API -->
+<h2>1. Fetch API (Random Quote)</h2>
+<button onclick="getQuote()">Load Quote</button>
+<div id="quoteBox" style="padding:10px; border:1px solid black; background:#fff; width:50%;"></div>
+
+<!-- 2. iFrame -->
+<h2>2. iFrame Example</h2>
+<iframe src="https://www.example.com" width="600" height="300"></iframe>
+
+<!-- 3. Cookies -->
+<h2>3. Cookie Usage</h2>
+<input type="text" id="cookiename" placeholder="Enter your name">
+<button onclick="saveCookie()">Save Cookie</button>
+<p id="cookieResult"></p>
+
+<!-- 4. Local Storage -->
+<h2>4. Local Storage Example</h2>
+<input type="text" id="favColor" placeholder="Favorite color">
+<button onclick="saveColor()">Save Color</button>
+<p id="colorResult"></p>
+
+<script>
+/* FETCH API */
+function getQuote() {
+    fetch("https://api.quotable.io/random")
+      .then(res => res.json())
+      .then(data => {
+          document.getElementById("quoteBox").innerHTML =
+          `"${data.content}" — <b>${data.author}</b>`;
+      });
+}
+
+/* COOKIES */
+function saveCookie() {
+    let name = document.getElementById("cookiename").value;
+    document.cookie = "username=" + name + "; max-age=86400";
+    document.getElementById("cookieResult").innerHTML = "Cookie saved for: " + name;
+}
+
+/* LOCAL STORAGE */
+function saveColor() {
+    let color = document.getElementById("favColor").value;
+    localStorage.setItem("favColor", color);
+    document.getElementById("colorResult").innerHTML = "Saved color: " + color;
+}
+
+window.onload = function() {
+    let storedColor = localStorage.getItem("favColor");
+    if (storedColor) {
+        document.getElementById("colorResult").innerHTML = "Previously saved color: " + storedColor;
+    }
+};
+</script>
 
 </body>
 </html>
+
