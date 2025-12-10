@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<!--
+    Name: Omar Alyasin
+    File: extracredit.html
+    Date created: 12/10/2025
+    Description: Patient Intake Form - EXTRA CREDIT VERSION
+    Enhancements: Modal Review, ZIP API, Progress Bar, Caps Lock Detection, Password Toggle, Responsive Design, Animations
+-->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #D1A879 0%, #C19A6B 100%);
+    padding-top: 220px;
+    padding-bottom: 120px;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #ddd;
+    z-index: 2000;
+}
+
+.progress-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+
+.fixed-header {
+    position: fixed;
+    top: 8px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #8B6F47 0%, #6B5237 100%);
+    z-index: 1000;
+    padding: 15px;
+    border-bottom: 3px solid black;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.fixed-header h1 {
+    margin: 0;
+    font-size: 36px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.welcome-message {
+    margin: 10px 0;
+    color: white;
+    font-size: 18px;
+}
+
+.progress-text {
+    color: white;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border: 3px solid #8B6F47;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+    from {transform: translateY(-50px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
+.modal-header {
+    text-align: center;
+    color: #8B6F47;
+    border-bottom: 2px solid #8B6F47;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.review-section {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+    border-radius: 5px;
+}
+
+.review-section.error {
+    border-left-color: #f44336;
+    background-color: #ffebee;
+}
+
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.review-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.review-value {
+    color: #666;
+}
+
+.review-value.error-text {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+}
+
+.modal-btn {
+    padding: 15px 40px;
+    font-size: 18px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.submit-modal-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.submit-modal-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.submit-modal-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.goback-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.goback-btn:hover {
+    background-color: #da190b;
+    transform: scale(1.05);
+}
+
+
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #8B6F47 0%, #6B5237 100%);
+    z-index: 1000;
+    padding: 15px;
+    border-top: 3px solid black;
+    text-align: center;
+    color: white;
+}
+
+
+.form-section {
+    margin: 20px auto;
+    padding: 25px;
+    background-color: rgba(229, 194, 159, 0.95);
+    border: 2px solid black;
+    border-radius: 10px;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    animation: fadeInUp 0.5s;
+}
+
+@keyframes fadeInUp {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.form-section h2 {
+    color: #8B6F47;
+    border-bottom: 3px solid #8B6F47;
+    padding-bottom: 10px;
+}
+
+
+.input-wrapper {
+    position: relative;
+    margin: 15px 0;
+}
+
+.input-wrapper input,
+.input-wrapper select,
+.input-wrapper textarea {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus,
+.input-wrapper textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+
+.password-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+.password-toggle:hover {
+    color: #4CAF50;
+}
+
+
+.caps-warning {
+    display: none;
+    color: #ff9800;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+
+.error-message {
+    color: #f44336;
+    font-size: 12px;
+    display: block;
+    min-height: 18px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.success-message {
+    color: #4CAF50;
+    font-size: 12px;
+    display: block;
+    min-height: 18px;
+    margin-top: 5px;
+}
+
+.input-error {
+    border: 2px solid #f44336 !important;
+    background-color: #ffebee;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% {transform: translateX(0);}
+    25% {transform: translateX(-10px);}
+    75% {transform: translateX(10px);}
+}
+
+.input-success {
+    border: 2px solid #4CAF50 !important;
+    background-color: #e8f5e9;
+}
+
+
+.custom-checkbox {
+    position: relative;
+    padding-left: 35px;
+    margin: 10px 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border: 2px solid #8B6F47;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
+.custom-radio {
+    position: relative;
+    padding-left: 35px;
+    margin: 10px 15px 10px 0;
+    cursor: pointer;
+    display: inline-block;
+    user-select: none;
+}
+
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radiomark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border: 2px solid #8B6F47;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.custom-radio:hover input ~ .radiomark {
+    background-color: #ccc;
+}
+
+.custom-radio input:checked ~ .radiomark {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.radiomark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-radio input:checked ~ .radiomark:after {
+    display: block;
+}
+
+.custom-radio .radiomark:after {
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+
+.slider-container {
+    margin: 20px 0;
+}
+
+.custom-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #4CAF50 0%, #4CAF50 50%, #ddd 50%, #ddd 100%);
+    outline: none;
+    transition: all 0.3s;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+}
+
+.custom-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: #45a049;
+}
+
+.custom-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+}
+
+.slider-value {
+    font-weight: bold;
+    color: #8B6F47;
+    font-size: 24px;
+    text-align: center;
+    display: block;
+    margin: 10px 0;
+}
+
+
+button {
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#reviewBtn {
+    background-color: #2196F3;
+    color: white;
+}
+
+#reviewBtn:hover {
+    background-color: #0b7dda;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#resetBtn {
+    background-color: #f44336;
+    color: white;
+}
+
+#resetBtn:hover {
+    background-color: #da190b;
+    transform: translateY(-2px);
+}
+
+
+@media (max-width: 768px) {
+    .fixed-header h1 {
+        font-size: 24px;
+    }
+    
+    .form-section {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+    
+    .review-item {
+        flex-direction: column;
+    }
+    
+    .modal-btn {
+        padding: 12px 25px;
+        font-size: 16px;
+        margin: 5px 0;
+        display: block;
+        width: 100%;
+    }
+    
+    button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+
+.zip-section {
+    background-color: #fff8e1;
+    padding: 15px;
+    border-radius: 5px;
+    border: 2px solid #ffc107;
+}
+
+.zip-info {
+    color: #ff6f00;
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4CAF50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+
+<div class="fixed-header">
+    <h1>🏥 Plague's Patient Form - Extra Credit Enhanced</h1>
+    <div class="welcome-message" id="welcomeMsg">Welcome!</div>
+    <div class="progress-text">Form Completion: <span id="progressPercent">0%</span></div>
+</div>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png/250px-Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png" 
+     alt="Plague Doctor" width="400" height="250" style="display: block; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+
+<form id="patientForm" novalidate>
+
+
+<div class="form-section">
+<h2>📋 Personal Information</h2>
+
+<div class="input-wrapper">
+    <label for="fname">First Name: *</label>
+    <input type="text" id="fname" name="fname" placeholder="Omar" maxlength="30"
+           title="1-30 characters, letters only"
+           oninput="validateFirstName(); updateProgress()">
+    <span class="input-icon">✓</span>
+    <span class="error-message" id="fname-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="minit">Middle Initial:</label>
+    <input type="text" id="minit" name="minit" placeholder="N" maxlength="1"
+           title="Optional: One letter only"
+           oninput="validateMiddleInitial(); updateProgress()">
+    <span class="error-message" id="minit-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="lname">Last Name: *</label>
+    <input type="text" id="lname" name="lname" placeholder="Alyasin" maxlength="30"
+           title="1-30 characters, letters only"
+           oninput="validateLastName(); updateProgress()">
+    <span class="input-icon">✓</span>
+    <span class="error-message" id="lname-error"></span>
+</div>
+
+<label>Date of Birth: * (MM/DD/YYYY)</label>
+<div style="display: flex; gap: 10px;">
+    <input type="text" id="dobMonth" placeholder="MM" maxlength="2" style="width: 80px;"
+           oninput="validateDOB(); updateProgress()">
+    <input type="text" id="dobDay" placeholder="DD" maxlength="2" style="width: 80px;"
+           oninput="validateDOB(); updateProgress()">
+    <input type="text" id="dobYear" placeholder="YYYY" maxlength="4" style="width: 100px;"
+           oninput="validateDOB(); updateProgress()">
+</div>
+<span class="error-message" id="dob-error"></span>
+</div>
+
+
+<div class="form-section">
+<h2>🔐 Account Information</h2>
+
+<div class="input-wrapper">
+    <label for="userid">User ID: *</label>
+    <input type="text" id="userid" name="userid" placeholder="john_doe123" maxlength="20"
+           title="5-20 characters, cannot start with number"
+           oninput="validateUserID(); updateProgress()">
+    <span class="error-message" id="userid-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="pass">Password: *</label>
+    <input type="password" id="pass" name="pass" maxlength="30"
+           title="Min 8 chars, uppercase, lowercase, and digit"
+           oninput="validatePassword(); updateProgress()"
+           onkeyup="checkCapsLock(event, 'capsWarning1')">
+    <span class="input-icon password-toggle" onclick="togglePassword('pass', this)">👁️</span>
+    <span class="caps-warning" id="capsWarning1">⚠️ Caps Lock is ON</span>
+    <span class="error-message" id="pass-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="pass2">Re-enter Password: *</label>
+    <input type="password" id="pass2" name="pass2" maxlength="30"
+           title="Must match password"
+           oninput="validatePasswordMatch(); updateProgress()"
+           onkeyup="checkCapsLock(event, 'capsWarning2')">
+    <span class="input-icon password-toggle" onclick="togglePassword('pass2', this)">👁️</span>
+    <span class="caps-warning" id="capsWarning2">⚠️ Caps Lock is ON</span>
+    <span class="error-message" id="pass2-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="social">Social Security Number: *</label>
+    <input type="password" id="social" name="social" placeholder="XXX-XX-XXXX" maxlength="11"
+           title="9 digits (formatted automatically)"
+           oninput="validateAndFormatSSN(); updateProgress()">
+    <span class="error-message" id="social-error"></span>
+</div>
+</div>
+
+
+<div class="form-section">
+<h2>📞 Contact Information</h2>
+
+<div class="input-wrapper">
+    <label for="email">Email: *</label>
+    <input type="email" id="email" name="email" placeholder="name@domain.com"
+           title="Valid email format required"
+           oninput="validateEmail(); updateProgress()">
+    <span class="error-message" id="email-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="phone">Phone Number: *</label>
+    <input type="tel" id="phone" name="phone" placeholder="(832) 970-0321"
+           title="10 digits, formatted automatically"
+           oninput="validateAndFormatPhone(); updateProgress()">
+    <span class="error-message" id="phone-error"></span>
+</div>
+</div>
+
+
+<div class="form-section zip-section">
+<h2>🏠 Address Information</h2>
+<p class="zip-info">💡 Enter your ZIP code first, and we'll auto-fill your city and state!</p>
+
+<div class="input-wrapper">
+    <label for="zip">Zip Code: * (Enter first)</label>
+    <input type="text" id="zip" name="zip" placeholder="77001" maxlength="5"
+           title="5 digits - will auto-fill city and state"
+           oninput="validateZip(); updateProgress()"
+           onblur="lookupZipCode()">
+    <span class="error-message" id="zip-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="city">City: * (Auto-filled from ZIP)</label>
+    <input type="text" id="city" name="city" placeholder="Will be filled automatically" readonly
+           style="background-color: #f5f5f5;">
+    <span class="error-message" id="city-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="state">State: * (Auto-filled from ZIP)</label>
+    <input type="text" id="state" name="state" placeholder="Will be filled automatically" readonly
+           style="background-color: #f5f5f5;">
+    <span class="error-message" id="state-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="address1">Address Line 1: *</label>
+    <input type="text" id="address1" name="address1" placeholder="123 Main St" maxlength="50"
+           title="2-50 characters required"
+           oninput="validateAddress1(); updateProgress()">
+    <span class="error-message" id="address1-error"></span>
+</div>
+
+<div class="input-wrapper">
+    <label for="address2">Address Line 2:</label>
+    <input type="text" id="address2" name="address2" placeholder="Apt 4B (optional)" maxlength="50"
+           title="Optional"
+           oninput="validateAddress2(); updateProgress()">
+    <span class="error-message" id="address2-error"></span>
+</div>
+</div>
+
+
+<div class="form-section">
+<h2>ℹ️ Additional Information</h2>
+
+<label>Gender: *</label><br>
+<label class="custom-radio">Male
+    <input type="radio" name="gender" value="male" onchange="validateGender(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<label class="custom-radio">Female
+    <input type="radio" name="gender" value="female" onchange="validateGender(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<label class="custom-radio">Other
+    <input type="radio" name="gender" value="other" onchange="validateGender(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<span class="error-message" id="gender-error"></span>
+
+<br><br>
+<label>Marital Status: *</label><br>
+<label class="custom-radio">Single
+    <input type="radio" name="marital_status" value="single" onchange="validateMaritalStatus(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<label class="custom-radio">Married
+    <input type="radio" name="marital_status" value="married" onchange="validateMaritalStatus(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<label class="custom-radio">Divorced
+    <input type="radio" name="marital_status" value="divorced" onchange="validateMaritalStatus(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<span class="error-message" id="marital_status-error"></span>
+
+<br><br>
+<label>Insurance: *</label><br>
+<label class="custom-radio">YES
+    <input type="radio" name="insure" value="YES" onchange="validateInsurance(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<label class="custom-radio">NO
+    <input type="radio" name="insure" value="NO" onchange="validateInsurance(); updateProgress()">
+    <span class="radiomark"></span>
+</label>
+<span class="error-message" id="insure-error"></span>
+
+<br><br>
+<div class="input-wrapper">
+    <label for="payment">Payment Method: *</label>
+    <select id="payment" name="payment" onchange="validatePayment(); updateProgress()">
+        <option value="">Select payment method</option>
+        <option value="visa">Visa</option>
+        <option value="mastercard">MasterCard</option>
+        <option value="insurance">Insurance</option>
+        <option value="cash">Cash</option>
+    </select>
+    <span class="error-message" id="payment-error"></span>
+</div>
+
+<br>
+<label>Medical Conditions: * (Check all that apply)</label><br>
+<label class="custom-checkbox">Chicken Pox
+    <input type="checkbox" name="conditions" value="chickenpox" onchange="validateConditions(); updateProgress()">
+    <span class="checkmark"></span>
+</label>
+<label class="custom-checkbox">Measles
+    <input type="checkbox" name="conditions" value="measles" onchange="validateConditions(); updateProgress()">
+    <span class="checkmark"></span>
+</label>
+<label class="custom-checkbox">COVID-19
+    <input type="checkbox" name="conditions" value="covid19" onchange="validateConditions(); updateProgress()">
+    <span class="checkmark"></span>
+</label>
+<label class="custom-checkbox">Influenza
+    <input type="checkbox" name="conditions" value="flu" onchange="validateConditions(); updateProgress()">
+    <span class="checkmark"></span>
+</label>
+<label class="custom-checkbox">Mumps
+    <input type="checkbox" name="conditions" value="mumps" onchange="validateConditions(); updateProgress()">
+    <span class="checkmark"></span>
+</label>
+<label class="custom-checkbox">None of the Above
+    <input type="checkbox" name="conditions" value="none" onchange="validateConditions(); updateProgress()">
+    <span class="checkmark"></span>
+</label>
+<span class="error-message" id="conditions-error"></span>
+
+<br><br>
+<div class="slider-container">
+    <label for="salary">Desired Annual Salary: *</label>
+    <span class="slider-value" id="salaryValue">$110,000</span>
+    <input type="range" id="salary" name="salary" class="custom-slider" min="20000" max="200000" value="110000" step="5000"
+           oninput="updateSalaryDisplay(); validateSalary(); updateProgress()">
+    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666;">
+        <span>$20,000</span>
+        <span>$200,000</span>
+    </div>
+</div>
+
+<br>
+<div class="input-wrapper">
+    <label for="comment">Additional Comments:</label>
+    <textarea rows="5" name="comment" id="comment" maxlength="500" 
+              placeholder="Enter any additional information here..."
+              oninput="validateComments(); updateProgress()"></textarea>
+    <span class="error-message" id="comment-error"></span>
+</div>
+</div>
+
+<div style="text-align: center; margin: 30px 0;">
+    <button type="button" id="reviewBtn" onclick="openReviewModal()">📝 Review My Information</button>
+    <button type="button" id="resetBtn" onclick="resetForm()">🔄 Clear Form</button>
+</div>
+
+</form>
+
+
+<div id="reviewModal" class
