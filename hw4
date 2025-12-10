@@ -1,228 +1,224 @@
 <!DOCTYPE html>
-<!--
+ <!--
     Name: Omar Alyasin
     File: homework4.html
     Date created: 12/6/2025
-    Date last edited: 12/10/2025
-    Version: 2 
-    Description: Homework4 Creating Patient Intake Form + Required Web Features
+    Date last edited: 12/6/2025
+    Version: 1 
+    Description: Homework4 Creating Patient Intake Form
 -->
 <html>
 <head>
-<h1 style="font-size:60px;"></h1>
-<h2><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png/250px-Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png" width="600" height="350"></h2>
-
+  <h1 style="font-size:60px;"></h1>
+<h2><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png/250px-Paul_F%C3%BCrst%2C_Der_Doctor_Schnabel_von_Rom_%28coloured_version%29.png" alt="https://en.wikipedia.org/wiki/Second_plague_pandemic" width="600" height="350"></h2>
 <style>
 body {
+  
+	
+	
 	background-color: #D1A879;
-}
 
+}
 table, th, td {
   border: 3px solid black;
   border-collapse: collapse;
 }
-
 th, td {
   padding: 20px;
 }
-
-/* Sticky protected content */
-.sticky-box {
-    position: sticky;
-    top: 0;
-    background: gold;
-    padding: 10px;
-    font-weight: bold;
-    border-bottom: 2px solid black;
-    z-index: 100;
-    text-align:center;
-}
 </style>
 </head>
-
 <body>
-
-<!-- CONTENT PROTECTION / STICKY ELEMENT -->
-<div class="sticky-box">
-    ⚠️ Important: Patient Intake Form — Do Not Scroll Away
-</div>
-
-<form action="results.html" method="GET">
+<form action= "results.html" method= "GET">
 <h1>Plague's Patient Form</h1>
-<h2><script>document.write(new Date().toLocaleDateString());</script></h2>
+<h2><script>document.write(new Date().toLocalDateString());</script></h2>
 
 <table style="width:100%">
   <tr>
     <td><label for="fname">First Name:</label>
             <input type="text" id="fname" name="fname" placeholder="Omar" maxlength="30" pattern="[A-Z^a-z34-' ]{2,}"
-                    required></td>
+                    required
+                    oninvalid="this.setCustomValidity('First Name is Required')"
+                    oninput="this.setCustomValidity('')"
+                    placeholder="Public (req'd)"> </td>
     <td><label for="minit">Middle Initial:</label>
-            <input type="text" id="minit" name="minit" maxlength="1"></td> 
+            <input type="text" id="minit" name="minit" placeholder="N" maxlength="1" oninvalid="this.setCustomValidity('Letters only please.')"
+                    oninput="this.setCustomValidity('')" ></td> 
     <td><label for="lname">Last Name:</label>
             <input type="text" id="lname" name="lname" placeholder="Alyasin" maxlength="30" pattern="[A-Z^a-z34-' ]{2,}"
-                    required></td>
+                    required
+                    oninvalid="this.setCustomValidity('Last Name is Required')"
+                    oninput="this.setCustomValidity('')"
+                    placeholder="Public (req'd)"></td>
   </tr>
-
   <tr>
     <td><label for="user">Username:</label>
-            <input type="text" id="user" name="user" placeholder="Epicdragon91" maxlength="20" minlength="5" required></td>
-
+            <input type="text" id="user" name="user" placeholder="Epicdragon91" maxlength="20" minlength= "5" required></td>
     <td><label for="pass">Password:</label>
-            <input type="password" id="pass1" name="pass" maxlength="12" required>
-            <label for="pass">Re-enter:</label>
-            <input type="password" id="pass2" maxlength="12" required></td>
-
-    <td><label for="social">Social Security Number:</label>
-            <input type="password" id="social" name="social" maxlength="9" required></td>
-  </tr>
-
+            <input type="password" id="pass" name="pass" maxlength="12" required><label for="pass">Re-enter Password:</label>
+            <input type="password" id="pass" name="pass" maxlength="12" required></td>
+ <td><label for="social">Social Security Number:</label>
+            <input type="password" id="social" name="social" maxlength="9" required></td></tr>
   <tr>
     <td><label for="email">Email:</label>
-            <input type="email" id="email" name="email"></td>
-
+            <input type="email" id="email" name="email" placeholder="name@domain.tld"></td>
     <td><label for="phone">Phone Number:</label>
             <input type="tel" id="phone" name="phone" placeholder="(832)-970-0321"></td>
-
     <td><label for="bdate">Birthdate:</label>
             <input type="date" id="bdate" name="bdate"></td>
   </tr>
-
   <tr>
-    <td>
-        <label>Legal Gender:</label>
-        <label for="male">Male</label><input type="radio" id="male" name="gender" value="male">
-        <label for="female">Female</label><input type="radio" id="female" name="gender" value="female">
-    </td>
+    <td><label for="gender">Legal Gender:</label> 
 
-    <td>
-        <label>Marital Status:</label>
-        <label for="single">Single</label><input type="radio" id="single" name="mstatus" value="single">
-        <label for="married">Married</label><input type="radio" id="married" name="mstatus" value="married">
-    </td>
+            <label for="male">Male</label>
+            <input type="radio" id="male" name="gender" value="male">
 
-    <td>
-        <label>Insurance:</label>
-        <label>YES</label><input type="radio" name="insure" value="YES">
-        <label>NO</label><input type="radio" name="insure" value="NO">
-    </td>
+            <label for="female">Female</label>
+            <input type="radio" id="female" name="gender" value="female"></td>
+    <td><label for="Mstatus">Marital Status:</label>
+
+            <label for="single">Single</label>
+            <input type="radio" id="single" name="Marital Status" value="single">
+
+            <label for="married">Married</label>
+            <input type="radio" id="married" name="Marital Status" value="married"></td>
+    <td><label for="insure">Insurance:</label> 
+
+            <label for="male">YES</label>
+            <input type="radio" id="YES" name="insure" value="YES">
+
+            <label for="female">NO</label>
+            <input type="radio" id="NO" name="insure" value="NO">
+            </td>
   </tr>
 </table>
 
-<p>
-<label for="payment">Payment:</label>
-<select id="payment" name="payment">
-    <option value="visa">Visa</option>
-    <option value="mastercard">MasterCard</option>
-    <option value="insurance">Insurance</option>
-</select>
-</p>
-
+<p><label for="payment">Payment/State:</label>
+            <select id="payment" name="payment">
+                <option value="visa">Visa</option>
+                <option value="mastercard">MasterCard</option>
+                <option value="insurance">Insurance</option>
+                </p>
+                
+<div>
 <label for="state">State:</label>
-<select id="state" name="state" required>
-    <option value=""></option>
-    <option value="TX">Texas</option>
-    <option value="CA">California</option>
-    <option value="FL">Florida</option>
-</select>
-
-<br><br>
-
-<label>Was this useful?</label>
-1 <input type="range" step="25" value="100"> 5
-
-<br><br>
-
-<textarea rows="5" cols="17" name="comment" maxlength="110" placeholder="Comments/Questions..."></textarea>
-
-<p><label for="address">Address:</label>
-<input type="text" id="address" name="address" maxlength="30" required></p>
-
-<p><label for="zip">Zip Code:</label>
-<input type="text" id="zip" name="zip" maxlength="5" required></p>
-
-<p><label for="city">City:</label>
-<input type="text" id="city" name="city" required></p>
-
+            <select id="state" name="state">
+            <select required>
+                <option value=""></option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+            </select>
+            </select>
+<br>
+<label for="slider">Was this useful:</label>
+			1<input type="range" step="25" value="100">5
+</br>
+            <div> <textarea rows="5" col="17" name= "comment" maxlength= "110" placeholder= "Comments/Questions..."></textarea></div>
+            </div>
+            <p><label for="address">Address:</label>
+            <input type="address" id="address" name="address" maxlength= "30" required> </th></p>
+            <label for="zip">Zip Code:</label>
+            <input type="zip" id="zip" name="zip" maxlength= "5" required> </th></p>
+            <p><label for="city">City:</label>
+            <input type="text" id="city" name="city" placeholder="Houston"  required></p>
+<div>
 <input type="reset"> 
-<input type="submit">
-
-<br><br>
-
-Today's date: <span id="today"></span>
-
-</form>
-
+	<a href="nextpage">	<input type="submit">
+</a>
+<div>
+<br>
+<td valign="bottom" align="right">Today's date: <span id="today"></span></td>
 <script>
-document.getElementById("today").innerHTML = new Date().toLocaleDateString();
-
-/* Override submit to show thank-you message */
-document.querySelector("form").addEventListener("submit", function(event) {
-    event.preventDefault();
+    document.getElementById("today").innerHTML = new Date().toLocaleDateString();
+</script>
+	<script>
+  
+  document.querySelector("form").addEventListener("submit", function(event) {
+    event.preventDefault(); 
     document.body.innerHTML = "<h1>Thank you for submitting your form!</h1><h2>We have received your information, " 
-    + document.getElementById("fname").value + ".</h2>";
-});
+      + document.getElementById("fname").value + ".</h2>" + <div class="section">
+        <h2>1. Fetch API Example</h2>
+        <button onclick="getQuote()">Load Random Quote</button>
+        <div id="quoteBox">Click the button to load a quote...</div>
+    </div>
+
+    <!-- iFrame Section -->
+    <div class="section">
+        <h2>2. Embedded iFrame</h2>
+        <p>Below is an embedded webpage using an iFrame:</p>
+        <iframe src="https://www.example.com"></iframe>
+    </div>
+
+    <!-- Cookie Section -->
+    <div class="section">
+        <h2>3. Cookie Usage</h2>
+        <input type="text" id="username" placeholder="Enter your name">
+        <button onclick="saveCookie()">Save Name to Cookie</button>
+        <p id="cookieResult"></p>
+    </div>
+
+    <!-- Local Storage Section -->
+    <div class="section">
+        <h2>4. Local Storage Usage</h2>
+        <input type="text" id="favColor" placeholder="Enter favorite color">
+        <button onclick="saveColor()">Save Color</button>
+        <p id="colorResult"></p>
+    </div>
+;
+  });
 </script>
+</br>
+	
 
-<!-- =============================== -->
-<!--     REQUIRED FEATURES ADDED     -->
-<!-- =============================== -->
-
-<hr><h1>Required Web Features</h1>
-
-<!-- 1. Fetch API -->
-<h2>1. Fetch API (Random Quote)</h2>
-<button onclick="getQuote()">Load Quote</button>
-<div id="quoteBox" style="padding:10px; border:1px solid black; background:#fff; width:50%;"></div>
-
-<!-- 2. iFrame -->
-<h2>2. iFrame Example</h2>
-<iframe src="https://www.example.com" width="600" height="300"></iframe>
-
-<!-- 3. Cookies -->
-<h2>3. Cookie Usage</h2>
-<input type="text" id="cookiename" placeholder="Enter your name">
-<button onclick="saveCookie()">Save Cookie</button>
-<p id="cookieResult"></p>
-
-<!-- 4. Local Storage -->
-<h2>4. Local Storage Example</h2>
-<input type="text" id="favColor" placeholder="Favorite color">
-<button onclick="saveColor()">Save Color</button>
-<p id="colorResult"></p>
-
-<script>
-/* FETCH API */
-function getQuote() {
-    fetch("https://api.quotable.io/random")
-      .then(res => res.json())
-      .then(data => {
-          document.getElementById("quoteBox").innerHTML =
-          `"${data.content}" — <b>${data.author}</b>`;
-      });
-}
-
-/* COOKIES */
-function saveCookie() {
-    let name = document.getElementById("cookiename").value;
-    document.cookie = "username=" + name + "; max-age=86400";
-    document.getElementById("cookieResult").innerHTML = "Cookie saved for: " + name;
-}
-
-/* LOCAL STORAGE */
-function saveColor() {
-    let color = document.getElementById("favColor").value;
-    localStorage.setItem("favColor", color);
-    document.getElementById("colorResult").innerHTML = "Saved color: " + color;
-}
-
-window.onload = function() {
-    let storedColor = localStorage.getItem("favColor");
-    if (storedColor) {
-        document.getElementById("colorResult").innerHTML = "Previously saved color: " + storedColor;
-    }
-};
-</script>
 
 </body>
 </html>
-
