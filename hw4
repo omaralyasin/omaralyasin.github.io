@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment Demo</title>
+    <style>
+        /* ----- Sticky Content (Content Protection) ----- */
+        #stickyHeader {
+            position: sticky;
+            top: 0;
+            background: #222;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+            z-index: 1000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #dataBox {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid black;
+            background-color: #f0f0f0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: 2px solid black;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CONTENT PROTECTION (Sticky Header) -->
+    <div id="stickyHeader">This Header Never Scrolls Away</div>
+
+    <h2>Fetch API Example</h2>
+    <button onclick="getData()">Fetch Random User</button>
+    <div id="dataBox">User data will appear here.</div>
+
+    <h2>iFrame Example</h2>
+    <iframe src="https://example.com"></iframe>
+
+    <h2>Cookie & Local Storage Example</h2>
+    <button onclick="saveCookie()">Save Cookie</button>
+    <button onclick="saveLocal()">Save LocalStorage</button>
+    <button onclick="showStored()">Show Stored Values</button>
+
+    <div id="storedOutput"></div>
+
+    <script>
+        /* ----- 1. Fetch API Example ----- */
+        function getData() {
+            fetch("https://randomuser.me/api/")
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.results[0];
+                    document.getElementById("dataBox").innerHTML =
+                        `Name: ${user.name.first} ${user.name.last}<br>
+                        Email: ${user.email}<br>
+                        Country: ${user.location.country}`;
+                })
+                .catch(err => {
+                    document.getElementById("dataBox").innerHTML = "Error fetching data";
+                });
+        }
+
+        /* ----- 2. Cookies ----- */
+        function saveCookie() {
+            document.cookie = "studentName=Omar; max-age=86400;"; // lasts 1 day
+            alert("Cookie saved!");
+        }
+
+        /* ----- 3. Local Storage ----- */
+        function saveLocal() {
+            localStorage.setItem("class", "MANA4397");
+            localStorage.setItem("status", "Active user");
+            alert("Local storage saved!");
+        }
+
+        function showStored() {
+            const cookie = document.cookie;
+            const localClass = localStorage.getItem("class");
+            const status = localStorage.getItem("status");
+
+            document.getElementById("storedOutput").innerHTML = `
+                <b>Cookies:</b> ${cookie}<br>
+                <b>LocalStorage:</b><br>
+                Class: ${localClass}<br>
+                Status: ${status}
+            `;
+        }
+    </script>
+
+</body>
+</html>
