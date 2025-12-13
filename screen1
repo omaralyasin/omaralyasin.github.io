@@ -1,0 +1,234 @@
+import { useState } from 'react';
+import { Battery, Wifi, Signal, BookOpen, Mail, Lock, User, Eye, EyeOff, GraduationCap } from 'lucide-react';
+
+export default function App() {
+  const [screen, setScreen] = useState('welcome'); // 'welcome', 'login', 'signup'
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    school: ''
+  });
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-600 to-purple-700 p-8">
+      <div className="relative w-[390px] h-[844px] bg-black rounded-[50px] shadow-2xl overflow-hidden">
+        
+        {/* Status Bar */}
+        <div className="h-11 bg-white flex items-center justify-between px-5 relative">
+          <div className="text-black text-[15px] font-semibold">9:41</div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150px] h-[30px] bg-black rounded-b-[20px]" />
+          <div className="flex items-center gap-1 bg-black px-2 py-1 rounded-xl">
+            <Signal size={14} color="#fff" strokeWidth={2.5} />
+            <Wifi size={14} color="#fff" strokeWidth={2.5} />
+            <Battery size={14} color="#fff" strokeWidth={2.5} />
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="bg-white" style={{ height: 'calc(844px - 44px - 21px)' }}>
+          
+          {/* Welcome Screen */}
+          {screen === 'welcome' && (
+            <div className="h-full flex flex-col items-center justify-center px-8">
+              <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mb-6 shadow-lg">
+                <BookOpen size={48} color="#fff" strokeWidth={2} />
+              </div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-3">PrepPal</h1>
+              <p className="text-gray-500 text-center mb-12 text-lg">Connect with students and ace your exams together</p>
+              
+              <button 
+                onClick={() => setScreen('login')}
+                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg mb-4 shadow-lg"
+              >
+                Log In
+              </button>
+              
+              <button 
+                onClick={() => setScreen('signup')}
+                className="w-full bg-white border-2 border-indigo-500 text-indigo-600 py-4 rounded-2xl font-semibold text-lg"
+              >
+                Sign Up
+              </button>
+              
+              <p className="text-gray-400 text-sm mt-8">Find your perfect study group</p>
+            </div>
+          )}
+
+          {/* Login Screen */}
+          {screen === 'login' && (
+            <div className="h-full flex flex-col px-8 pt-12">
+              <button 
+                onClick={() => setScreen('welcome')}
+                className="text-indigo-600 text-sm font-medium mb-8 self-start"
+              >
+                ← Back
+              </button>
+              
+              <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                <BookOpen size={40} color="#fff" strokeWidth={2} />
+              </div>
+              
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back!</h2>
+              <p className="text-gray-500 mb-8">Log in to find your study buddies</p>
+              
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Email</label>
+                  <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5">
+                    <Mail size={20} color="#9CA3AF" />
+                    <input 
+                      type="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      className="ml-3 bg-transparent flex-1 outline-none text-gray-900"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Password</label>
+                  <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5">
+                    <Lock size={20} color="#9CA3AF" />
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      value={formData.password}
+                      onChange={(e) => handleInputChange('password', e.target.value)}
+                      className="ml-3 bg-transparent flex-1 outline-none text-gray-900"
+                    />
+                    <button onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <EyeOff size={20} color="#9CA3AF" /> : <Eye size={20} color="#9CA3AF" />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <button className="text-indigo-600 text-sm font-medium mb-8 self-end">
+                Forgot password?
+              </button>
+              
+              <button className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg shadow-lg">
+                Log In
+              </button>
+              
+              <div className="flex items-center justify-center mt-8">
+                <span className="text-gray-500">Don't have an account? </span>
+                <button 
+                  onClick={() => setScreen('signup')}
+                  className="text-indigo-600 font-semibold ml-1"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Sign Up Screen */}
+          {screen === 'signup' && (
+            <div className="h-full flex flex-col px-8 pt-12 overflow-y-auto">
+              <button 
+                onClick={() => setScreen('welcome')}
+                className="text-indigo-600 text-sm font-medium mb-8 self-start"
+              >
+                ← Back
+              </button>
+              
+              <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                <BookOpen size={40} color="#fff" strokeWidth={2} />
+              </div>
+              
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Join PrepPal</h2>
+              <p className="text-gray-500 mb-8">Create an account and start studying smarter</p>
+              
+              <div className="space-y-4 mb-8">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Full Name</label>
+                  <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5">
+                    <User size={20} color="#9CA3AF" />
+                    <input 
+                      type="text"
+                      placeholder="Enter your name"
+                      value={formData.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      className="ml-3 bg-transparent flex-1 outline-none text-gray-900"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">School/University</label>
+                  <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5">
+                    <GraduationCap size={20} color="#9CA3AF" />
+                    <input 
+                      type="text"
+                      placeholder="Enter your school"
+                      value={formData.school}
+                      onChange={(e) => handleInputChange('school', e.target.value)}
+                      className="ml-3 bg-transparent flex-1 outline-none text-gray-900"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Email</label>
+                  <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5">
+                    <Mail size={20} color="#9CA3AF" />
+                    <input 
+                      type="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      className="ml-3 bg-transparent flex-1 outline-none text-gray-900"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">Password</label>
+                  <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5">
+                    <Lock size={20} color="#9CA3AF" />
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Create a password"
+                      value={formData.password}
+                      onChange={(e) => handleInputChange('password', e.target.value)}
+                      className="ml-3 bg-transparent flex-1 outline-none text-gray-900"
+                    />
+                    <button onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <EyeOff size={20} color="#9CA3AF" /> : <Eye size={20} color="#9CA3AF" />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <button className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg shadow-lg mb-6">
+                Sign Up
+              </button>
+              
+              <div className="flex items-center justify-center mb-6">
+                <span className="text-gray-500">Already have an account? </span>
+                <button 
+                  onClick={() => setScreen('login')}
+                  className="text-indigo-600 font-semibold ml-1"
+                >
+                  Log In
+                </button>
+              </div>
+            </div>
+          )}
+          
+        </div>
+
+        {/* Home Indicator */}
+        <div className="w-[134px] h-[5px] bg-white rounded-full mx-auto mb-2" />
+      </div>
+    </div>
+  );
+}
